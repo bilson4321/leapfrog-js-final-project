@@ -1,4 +1,5 @@
 import {TitleScreen} from './GameStates/TitleScreen.js';
+import {InputController} from './InputController.js';
 
 class Game
 {
@@ -13,6 +14,8 @@ class Game
         this.gameState={currentState:0,
                         titleScreen:0,
                         playingState:1};
+        this.inputController=new InputController();
+        
         this.titleScreen=new TitleScreen();      
     }
     init()
@@ -25,6 +28,7 @@ class Game
         
         if(this.gameState.currentState==this.gameState.titleScreen)
         {
+            this.titleScreen.handleInput(this.inputController);
             this.titleScreen.update();
             this.titleScreen.draw(this.canvasContext);
         }

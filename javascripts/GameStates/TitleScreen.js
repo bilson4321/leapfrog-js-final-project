@@ -5,9 +5,16 @@ class TitleScreen
         this.background=new Image();
         this.background.src='./images/titleScreen.png';
     }
+    handleInput(inputController)
+    {
+        if(inputController.keyPressed(32))
+        {
+            console.log("space pressed");
+        }
+    }
     update()
     {
-        console.log('updating titlescreen');
+        
     }
     draw(canvasContext)
     {
