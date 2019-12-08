@@ -10,6 +10,7 @@ class TitleScreen
         if(inputController.keyPressed(32))
         {
             console.log("space pressed");
+            inputController.reset();
         }
     }
     update()

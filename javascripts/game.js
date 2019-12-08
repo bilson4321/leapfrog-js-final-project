@@ -32,7 +32,7 @@ class Game
             this.titleScreen.update();
             this.titleScreen.draw(this.canvasContext);
         }
-       
+        
         window.requestAnimationFrame(this.render.bind(this));
     }
     start()

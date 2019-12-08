@@ -2,8 +2,14 @@ class InputController
 {
     constructor()
     {
-        document.addEventListener('keyup',this.keyUp.bind(this));
-        document.addEventListener('keydown',this.keyDown.bind(this));
+        window.addEventListener('keyup',this.keyUp.bind(this));
+        window.addEventListener('keydown',this.keyDown.bind(this));
+        this.keyUpCode=null;
+        this.keyDownCode=null;
+    }
+    //must be called after desired input has been taken
+    reset()
+    {
         this.keyUpCode=null;
         this.keyDownCode=null;
     }
