@@ -1,3 +1,5 @@
+import { Game } from "../game.js";
+
 class TitleScreen
 {
     constructor()
@@ -10,6 +12,7 @@ class TitleScreen
         if(inputController.keyPressed(32))
         {
             console.log("space pressed");
+            Game.gameState.currentState=Game.gameState.playingState;
             inputController.reset();
         }
     }

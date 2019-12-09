@@ -7,6 +7,16 @@ class InputController
         this.keyUpCode=null;
         this.keyDownCode=null;
     }
+    keyUp(event)
+    {
+        console.log("keyUp>>",event.keyCode);
+        this.keyUpCode=event.keyCode;
+    }
+    keyDown(event)
+    {
+        console.log('keyDown>>',event.keyCode);
+        this.keyDownCode=event.keyCode;
+    }
     //must be called after desired input has been taken
     reset()
     {
@@ -20,15 +30,12 @@ class InputController
         else
         return false;
     }
-    keyUp(event)
+    isKeyDown(keyCode)
     {
-        console.log("keyUp>>",event.keyCode);
-        this.keyUpCode=event.keyCode;
-    }
-    keyDown(event)
-    {
-        console.log('keyDown>>',event.keyCode);
-        this.keyDownCode=event.keyCode;
+        if(this.keyDownCode==keyCode)
+        return true;
+        else
+        return false;
     }
 }
 

@@ -1,8 +1,12 @@
 import {TitleScreen} from './GameStates/TitleScreen.js';
+import {PlayingState} from './GameStates/PlayingState.js';
 import {InputController} from './InputController.js';
 
 class Game
 {
+    static gameState={currentState:0,
+        titleScreen:0,
+        playingState:1};
     constructor(mainDiv)
     {
         this.htmlContainerDiv=mainDiv;
@@ -11,12 +15,11 @@ class Game
         this.canvas.width=960;
         this.htmlContainerDiv.appendChild(this.canvas);
         this.canvasContext=this.canvas.getContext('2d');
-        this.gameState={currentState:0,
-                        titleScreen:0,
-                        playingState:1};
+        
         this.inputController=new InputController();
         
-        this.titleScreen=new TitleScreen();      
+        this.titleScreen=new TitleScreen();
+        this.playingState=new PlayingState();      
     }
     init()
     {
@@ -24,13 +27,19 @@ class Game
     }
     render()
     {
-        this.canvasContext.clearRect(0,0,720,960);
+        this.canvasContext.clearRect(0,0,960,720);
         
-        if(this.gameState.currentState==this.gameState.titleScreen)
+        if(Game.gameState.currentState==Game.gameState.titleScreen)
         {
             this.titleScreen.handleInput(this.inputController);
             this.titleScreen.update();
             this.titleScreen.draw(this.canvasContext);
+        }
+        if(Game.gameState.currentState==Game.gameState.playingState)
+        {
+            this.playingState.handleInput(this.inputController);
+            this.playingState.update();
+            this.playingState.draw(this.canvasContext);
         }
         
         window.requestAnimationFrame(this.render.bind(this));
