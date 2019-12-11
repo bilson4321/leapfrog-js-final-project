@@ -6,6 +6,8 @@ class GameWorld
     constructor()
     {
         this.worldSize={height:720,width:1960};
+      //  this.background=new Image();
+      //  this.background.src='./images/background.png';
         this.tileMap=new TileMap();
         this.player=new Player(this.tileMap);
     }
@@ -20,6 +22,7 @@ class GameWorld
     }
     draw(canvasContext)
     {
+    //    canvasContext.drawImage(this.background,0,0,1280,1280);
         this.tileMap.draw(canvasContext);
         this.player.draw(canvasContext);
     }

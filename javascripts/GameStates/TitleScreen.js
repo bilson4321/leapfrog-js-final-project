@@ -9,7 +9,7 @@ class TitleScreen
     }
     handleInput(inputController)
     {
-        if(inputController.keyPressed(32))
+        if(inputController.isKeyDown(32))
         {
             console.log("space pressed");
             Game.gameState.currentState=Game.gameState.playingState;

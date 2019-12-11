@@ -4,18 +4,21 @@ class InputController
     {
         window.addEventListener('keyup',this.keyUp.bind(this));
         window.addEventListener('keydown',this.keyDown.bind(this));
-        this.keyUpCode=null;
-        this.keyDownCode=null;
+       // this.keyUpCode=null;
+       // this.keyDownCode=null;
+       this.code={};
     }
     keyUp(event)
     {
         console.log("keyUp>>",event.keyCode);
-        this.keyUpCode=event.keyCode;
+        //this.keyUpCode=event.keyCode;
+        delete this.code[event.keyCode];
     }
     keyDown(event)
     {
         console.log('keyDown>>',event.keyCode);
-        this.keyDownCode=event.keyCode;
+        //this.keyDownCode=event.keyCode;
+        this.code[event.keyCode]=true;
     }
     //must be called after desired input has been taken
     reset()
@@ -32,10 +35,16 @@ class InputController
     }
     isKeyDown(keyCode)
     {
+        if(this.code[keyCode]==true)
+        return true;
+        else
+        return false;
+        /*
         if(this.keyDownCode==keyCode)
         return true;
         else
         return false;
+        */
     }
 }
 
