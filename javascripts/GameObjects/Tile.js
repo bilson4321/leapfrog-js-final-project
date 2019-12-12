@@ -2,10 +2,11 @@ class Tile
 {
     constructor()
     {
-        this.tile1=new Image();
-        this.tile1.src='./images/air.png';
+        this.tile0=new Image();
         this.tile2=new Image();
-        this.tile2.src='./images/box.png';
+        this.tile2.src='./images/tile2.png';
+        this.tile5=new Image();
+        this.tile5.src='./images/tile5.png';
     }
     returnImage(index)
     {
@@ -13,11 +14,15 @@ class Tile
         {
             case 0:
                 {
-                    return this.tile1;
+                    return this.tile0;
                 }
-            case 1:
+            case 2:
                 {
                     return this.tile2;
+                }
+            case 5:
+                {
+                    return this.tile5;
                 }
         }
     }

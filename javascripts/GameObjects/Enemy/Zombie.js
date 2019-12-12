@@ -1,77 +1,37 @@
-import {Animation} from '../Utilities/Animation.js';
+import {Animation} from '../../Utilities/Animation.js'
 
-class Player
+class Zombie
 {
     constructor(tileMap)
     {
         this.Map=tileMap;
         this.animationState={current:0,idle:0,walking:1,shooting:2};
         
-        this.idle=new Animation('./images/idle.png',280,1029,129,58,8);
+        this.idle=new Animation('./images/zombie_idle.png',280,700,111,69,4);
         this.walking=new Animation('./images/walking.png',280,1196,129,64,8);
         this.shooting=new Animation('./images/shooting.png',280,1168,129,90,6);
 
-        this.position={x:450,y:250};
-        this.height=122;
-        this.width=58;
+        this.position={x:290,y:550};
+        this.height=111;
+        this.width=69;
         this.velocity={x:0,y:0};
         this.friction=0.05;
         this.mirrored=0;
-        this.onTheGround=false;
+        this.onTheGround=true;
         this.shootingState=false;
     }
     handleInput(inputController)
     {
-        if(inputController.isKeyDown(39))
-        {
-            this.velocity.x+=2;
-            inputController.reset();
-        }
-        if(inputController.isKeyDown(37))
-        {
-            this.velocity.x-=2;
-            inputController.reset();
-        }
-        if(inputController.isKeyDown(38)&&this.onTheGround)
-        {
-            this.velocity.y-=118;
-            inputController.reset();
-        }
-        if(inputController.isKeyDown(32)&&this.onTheGround)
-        {
-           // this.shootingState=true;
-            inputController.reset();
-        }
+        
     }
     update()
     {
-        if(this.velocity.x>2||this.velocity.x<-2)
-        this.animationState.current=this.animationState.walking;
-        else if(this.shootingState)
-        this.animationState.current=this.animationState.shooting;
-        else
-        this.animationState.current=this.animationState.idle;
-
-        if(this.velocity.x<=0)
-        this.mirrored=1;
-        else
-        this.mirrored=0;
-
-        this.position.x+=this.velocity.x;
-        this.velocity.x*=this.friction;
-        this.position.y+=this.velocity.y;
-        this.velocity.y*=this.friction; 
-
-        if(!this.onTheGround)
-        {
-            this.position.y+=2;
-        }
-        
+       
         //this.handleCollision();
     }
     draw(canvasContext)
     {
-        this.handleCollision(canvasContext); // for experimental purpose only
+       // this.handleCollision(canvasContext); // for experimental purpose only
         if(this.mirrored==1)
         {
             canvasContext.save();
@@ -198,4 +158,4 @@ class Player
         }
     }
 }
-export {Player};
+export {Zombie};
