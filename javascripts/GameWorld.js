@@ -11,7 +11,7 @@ class GameWorld
         this.background.src='./images/background.png';
         this.tileMap=new TileMap();
         this.player=new Player(this.tileMap);
-        this.zombie=new Zombie(this.tileMap);
+        this.zombie=new Zombie(this.tileMap,this.player);
     }
     handleInput(inputController)
     {
@@ -21,6 +21,7 @@ class GameWorld
     {
         this.tileMap.update();
         this.player.update();
+        this.zombie.update();
     }
     draw(canvasContext)
     {
