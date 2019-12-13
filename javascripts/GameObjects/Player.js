@@ -62,7 +62,7 @@ class Player
         this.position.y+=this.velocity.y;
         this.velocity.y*=this.friction; 
 
-        if(!this.onTheGround)
+        if(!this.onTheGround) 
         {
             this.position.y+=2;
         }

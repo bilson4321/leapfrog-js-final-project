@@ -8,8 +8,8 @@ class Zombie
         this.animationState={current:0,idle:0,walking:1,shooting:2};
         
         this.idle=new Animation('./images/zombie_idle.png',280,700,111,69,4);
-        this.walking=new Animation('./images/zombie_walking.png',280,887,111,69,6);
-        this.shooting=new Animation('./images/shooting.png',280,1168,129,90,6);
+        this.walking=new Animation('./images/zombie_walking.png',280,887,111,70,6);
+        this.attacking=new Animation('./images/zombie_attacking.png',280,1033,111,70,6);
 
         this.position={x:290,y:550};
         this.height=111;
@@ -19,10 +19,14 @@ class Zombie
         this.mirrored=0;
         this.onTheGround=true;
         this.shootingState=false;
-
+        //zombie activity
+        this.activityState={current:0,patrol:0,attacking:1};
+        this.idleCounter=0;
+        this.idleDuration=1000;
+        this.patrolDistance={initialX:290,destinationX:600};
 
         this.player=player;
-        this.visibilityRange={height:40,width:240};
+        this.attackRange={height:40,width:40};
     }
     handleInput(inputController)
     {
@@ -30,7 +34,7 @@ class Zombie
     }
     update()
     {
-        if(this.velocity.x>0.25)
+        if(this.velocity.x>0.25||this.velocity.x<-0.25)
         {
             this.animationState.current=this.animationState.walking;
         }
@@ -38,12 +42,59 @@ class Zombie
         {
             this.animationState.current=this.animationState.idle;
         }
-        if (this.position.x+15 < this.player.position.x + this.player.width &&
-            this.position.x+15 + this.visibilityRange.width > this.player.position.x &&
-            this.position.y < this.player.position.y+this.player.height &&
-            this.position.y + this.visibilityRange.height > this.player.position.y) 
-            this.velocity.x+=1;
 
+        if(this.activityState.current==this.activityState.patrol)
+        {
+            if(this.mirrored==0)
+            {   
+                this.velocity.x+=1;
+                if(this.position.x>this.patrolDistance.destinationX)
+                {
+                    this.mirrored=1;
+                    this.velocity.x-=1;
+                }
+                if (this.position.x+30 < this.player.position.x + this.player.width &&
+                    this.position.x+30 + this.attackRange.width > this.player.position.x &&
+                    this.position.y < this.player.position.y+this.player.height &&
+                    this.position.y + this.attackRange.height > this.player.position.y) 
+                    {
+                        this.activityState.current=this.activityState.attacking;
+                        this.animationState.current=this.animationState.attacking;
+                    }
+            }
+            else
+            {
+                this.velocity.x-=1;
+                if(this.position.x<this.patrolDistance.initialX)
+                {
+                    this.mirrored=0;
+                    this.velocity.x+=1;
+                }
+                if (this.position.x < this.player.position.x + this.player.width &&
+                    this.position.x > this.player.position.x &&
+                    this.position.y < this.player.position.y+this.player.height &&
+                    this.position.y + this.attackRange.height > this.player.position.y) 
+                    {
+                        this.activityState.current=this.activityState.attacking;
+                        this.animationState.current=this.animationState.attacking;
+                    }
+
+            }
+        }
+        if(this.activityState.current==this.activityState.attacking)
+        {
+            this.velocity.x=0;
+            this.idleCounter++;
+            console.log("attacking");
+            if(this.idleCounter<500)
+            {
+                this.idleCounter=0;
+                this.activityState.current=this.activityState.patrol;
+            }
+        }
+         
+    
+        
         this.position.x+=this.velocity.x;
         this.velocity.x*=0.5;
        this.handleCollision();
@@ -63,10 +114,11 @@ class Zombie
             this.idle.draw(canvasContext,0,0);
             if(this.animationState.current==this.animationState.walking)
             this.walking.draw(canvasContext,0,0);
-            if(this.animationState.current==this.animationState.shooting)
-            this.shooting.draw(canvasContext,0,0);
+            if(this.animationState.current==this.animationState.attacking)
+            this.attacking.draw(canvasContext,0,0);
             canvasContext.restore();
-            
+            canvasContext.strokeStyle='blue';
+            canvasContext.strokeRect(this.position.x,this.position.y,this.attackRange.width,this.attackRange.height);
         }
         else
         {
@@ -76,10 +128,10 @@ class Zombie
             this.idle.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.walking)
             this.walking.draw(canvasContext,this.position.x,this.position.y);
-            if(this.animationState.current==this.animationState.shooting)
-            this.shooting.draw(canvasContext,this.position.x,this.position.y);
-            // canvasContext.strokeStyle='blue';
-            // canvasContext.strokeRect(this.position.x,this.position.y,this.visibilityRange.width,this.visibilityRange.height);
+            if(this.animationState.current==this.animationState.attacking)
+            this.attacking.draw(canvasContext,this.position.x,this.position.y);
+            canvasContext.strokeStyle='blue';
+            canvasContext.strokeRect(this.position.x+30,this.position.y,this.attackRange.width,this.attackRange.height);
         }
     }
     handleCollision()
