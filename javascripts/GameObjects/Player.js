@@ -5,11 +5,14 @@ class Player
     constructor(tileMap)
     {
         this.Map=tileMap;
-        this.animationState={current:0,idle:0,walking:1,shooting:2};
+        this.animationState={current:0,idle:0,walking:1,shooting:2,dead:3};
         
         this.idle=new Animation('./images/idle.png',280,1029,129,58,8);
         this.walking=new Animation('./images/walking.png',280,1196,129,64,8);
         this.shooting=new Animation('./images/shooting.png',280,1168,129,90,6);
+        this.dead=new Animation('./images/dead.png',280,1504,129,116,6,false);
+        this.whenDamaged=new Image();
+        this.whenDamaged.src='./images/whenDamage.png';
 
         this.position={x:450,y:250};
         this.height=122;
@@ -19,6 +22,11 @@ class Player
         this.mirrored=0;
         this.onTheGround=false;
         this.shootingState=false;
+
+        //Player status
+        this.health=100;
+
+        this.previousHealth=100;//for damage taken
     }
     handleInput(inputController)
     {
@@ -45,28 +53,34 @@ class Player
     }
     update()
     {
-        if(this.velocity.x>2||this.velocity.x<-2)
-        this.animationState.current=this.animationState.walking;
-        else if(this.shootingState)
-        this.animationState.current=this.animationState.shooting;
-        else
-        this.animationState.current=this.animationState.idle;
+        if(this.health>0)
+        {  
+            if(this.velocity.x>2||this.velocity.x<-2)
+            this.animationState.current=this.animationState.walking;
+            else if(this.shootingState)
+            this.animationState.current=this.animationState.shooting;
+            else
+            this.animationState.current=this.animationState.idle;
 
-        if(this.velocity.x<=0)
-        this.mirrored=1;
-        else
-        this.mirrored=0;
+            if(this.velocity.x<=0)
+            this.mirrored=1;
+            else
+            this.mirrored=0;
 
-        this.position.x+=this.velocity.x;
-        this.velocity.x*=this.friction;
-        this.position.y+=this.velocity.y;
-        this.velocity.y*=this.friction; 
+            this.position.x+=this.velocity.x;
+            this.velocity.x*=this.friction;
+            this.position.y+=this.velocity.y;
+            this.velocity.y*=this.friction; 
 
-        if(!this.onTheGround) 
-        {
-            this.position.y+=2;
+            if(!this.onTheGround) 
+            {
+                this.position.y+=2;
+            }
         }
-        
+        else
+        {
+            this.animationState.current=this.animationState.dead;
+        }
         //this.handleCollision();
     }
     draw(canvasContext)
@@ -79,25 +93,45 @@ class Player
             canvasContext.scale(-1, 1);  
             // canvasContext.fillStyle='pink';
             // canvasContext.fillRect(0,0,this.width,this.height);
-            if(this.animationState.current==this.animationState.idle)
+            if(this.previousHealth!=this.health)
+            {
+                canvasContext.drawImage(this.whenDamaged,0,0,116,129);
+            }
+            else
+            {
+                if(this.animationState.current==this.animationState.idle)
             this.idle.draw(canvasContext,0,0);
             if(this.animationState.current==this.animationState.walking)
             this.walking.draw(canvasContext,0,0);
             if(this.animationState.current==this.animationState.shooting)
             this.shooting.draw(canvasContext,0,0);
+            if(this.animationState.current==this.animationState.dead)
+            this.dead.draw(canvasContext,0,0);
+            }
+            
             canvasContext.restore();
         }
         else
         {
             // canvasContext.fillStyle='pink';
             // canvasContext.fillRect(this.position.x,this.position.y,this.width,this.height);
+            if(this.previousHealth!=this.health)
+            {
+                canvasContext.drawImage(this.whenDamaged,this.position.x-25,this.position.y,116,129);
+            }
+            else
+            {
             if(this.animationState.current==this.animationState.idle)
             this.idle.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.walking)
             this.walking.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.shooting)
             this.shooting.draw(canvasContext,this.position.x,this.position.y);
+            if(this.animationState.current==this.animationState.dead)
+            this.dead.draw(canvasContext,this.position.x,this.position.y);
+            }
         }
+        this.previousHealth=this.health;
     }
     handleCollision(canvasContext)
     {

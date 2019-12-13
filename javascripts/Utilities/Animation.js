@@ -31,5 +31,9 @@ class Animation
             this.tickCount=0;
         }
     }
+    getFrameIndex()
+    {
+        return this.frameIndex;
+    }
 }
 export {Animation}

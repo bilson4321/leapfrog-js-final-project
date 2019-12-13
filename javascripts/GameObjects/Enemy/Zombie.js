@@ -58,8 +58,11 @@ class Zombie
                     this.position.y < this.player.position.y+this.player.height &&
                     this.position.y + this.attackRange.height > this.player.position.y) 
                     {
-                        this.activityState.current=this.activityState.attacking;
-                        this.animationState.current=this.animationState.attacking;
+                        if(this.player.health>0)
+                        {
+                            this.activityState.current=this.activityState.attacking;
+                            this.animationState.current=this.animationState.attacking;
+                        }
                     }
             }
             else
@@ -75,8 +78,11 @@ class Zombie
                     this.position.y < this.player.position.y+this.player.height &&
                     this.position.y + this.attackRange.height > this.player.position.y) 
                     {
-                        this.activityState.current=this.activityState.attacking;
-                        this.animationState.current=this.animationState.attacking;
+                        if(this.player.health>0)
+                        {
+                            this.activityState.current=this.activityState.attacking;
+                            this.animationState.current=this.animationState.attacking;
+                        }
                     }
 
             }
@@ -85,7 +91,8 @@ class Zombie
         {
             this.velocity.x=0;
             this.idleCounter++;
-            console.log("attacking");
+            if(this.player.health>0&&this.attacking.getFrameIndex()==5)
+                this.player.health-=5;
             if(this.idleCounter<500)
             {
                 this.idleCounter=0;
