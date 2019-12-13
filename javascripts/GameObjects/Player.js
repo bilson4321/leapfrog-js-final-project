@@ -11,6 +11,8 @@ class Player
         this.walking=new Animation('./images/walking.png',280,1196,129,64,8);
         this.shooting=new Animation('./images/shooting.png',280,1168,129,90,6);
         this.dead=new Animation('./images/dead.png',280,1504,129,116,6,false);
+        // this.jumpUp=new Animation('');
+        // this.fallingDown=new Animation('');
         this.whenDamaged=new Image();
         this.whenDamaged.src='./images/whenDamage.png';
 
@@ -45,9 +47,11 @@ class Player
             this.velocity.y-=118;
             inputController.reset();
         }
-        if(inputController.isKeyDown(32)&&this.onTheGround)
+        if(inputController.isKeyDown(32)&&this.onTheGround&&!this.shootingState)
         {
-           // this.shootingState=true;
+            this.shootingState=true;
+            this.animationState.current=this.animationState.shooting;
+            this.shooting.start();
             inputController.reset();
         }
     }
@@ -58,14 +62,20 @@ class Player
             if(this.velocity.x>2||this.velocity.x<-2)
             this.animationState.current=this.animationState.walking;
             else if(this.shootingState)
-            this.animationState.current=this.animationState.shooting;
+            {
+                console.log(this.shooting.getFrameIndex());
+                if(this.shooting.getFrameIndex()==5)
+                {
+                    this.shootingState=false;
+                }     
+            }
             else
             this.animationState.current=this.animationState.idle;
 
-            if(this.velocity.x<=0)
-            this.mirrored=1;
-            else
+            if(this.velocity.x>=0)
             this.mirrored=0;
+            else
+            this.mirrored=1;
 
             this.position.x+=this.velocity.x;
             this.velocity.x*=this.friction;
@@ -95,18 +105,18 @@ class Player
             // canvasContext.fillRect(0,0,this.width,this.height);
             if(this.previousHealth!=this.health)
             {
-                canvasContext.drawImage(this.whenDamaged,0,0,116,129);
+                canvasContext.drawImage(this.whenDamaged,-25,0,116,129);
             }
             else
             {
                 if(this.animationState.current==this.animationState.idle)
-            this.idle.draw(canvasContext,0,0);
-            if(this.animationState.current==this.animationState.walking)
-            this.walking.draw(canvasContext,0,0);
-            if(this.animationState.current==this.animationState.shooting)
-            this.shooting.draw(canvasContext,0,0);
-            if(this.animationState.current==this.animationState.dead)
-            this.dead.draw(canvasContext,0,0);
+                this.idle.draw(canvasContext,0,0);
+                if(this.animationState.current==this.animationState.walking)
+                this.walking.draw(canvasContext,0,0);
+                if(this.animationState.current==this.animationState.shooting)
+                this.shooting.draw(canvasContext,0,0);
+                if(this.animationState.current==this.animationState.dead)
+                this.dead.draw(canvasContext,-25,0);
             }
             
             canvasContext.restore();
@@ -128,7 +138,7 @@ class Player
             if(this.animationState.current==this.animationState.shooting)
             this.shooting.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.dead)
-            this.dead.draw(canvasContext,this.position.x,this.position.y);
+            this.dead.draw(canvasContext,this.position.x-25,this.position.y);
             }
         }
         this.previousHealth=this.health;

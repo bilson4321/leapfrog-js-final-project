@@ -8,8 +8,8 @@ class Zombie
         this.animationState={current:0,idle:0,walking:1,shooting:2};
         
         this.idle=new Animation('./images/zombie_idle.png',280,700,111,69,4);
-        this.walking=new Animation('./images/zombie_walking.png',280,887,111,70,6);
-        this.attacking=new Animation('./images/zombie_attacking.png',280,1033,111,70,6);
+        this.walking=new Animation('./images/zombie_walking.png',280,999,111,66,6);
+        this.attacking=new Animation('./images/zombie_attacking.png',280,1137,111,75,6);
 
         this.position={x:290,y:550};
         this.height=111;

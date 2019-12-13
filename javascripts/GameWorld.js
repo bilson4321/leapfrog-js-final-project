@@ -25,7 +25,7 @@ class GameWorld
     }
     draw(canvasContext)
     {
-        canvasContext.drawImage(this.background,0,0,1280,1280);
+        canvasContext.drawImage(this.background,0,0,1920,1080);
         this.tileMap.draw(canvasContext);
         this.player.draw(canvasContext);
         this.zombie.draw(canvasContext);

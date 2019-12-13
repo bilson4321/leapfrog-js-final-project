@@ -31,6 +31,10 @@ class Animation
             this.tickCount=0;
         }
     }
+    start() 
+    {
+        this.frameIndex=0;
+    }
     getFrameIndex()
     {
         return this.frameIndex;
