@@ -10,13 +10,11 @@ class InputController
     }
     keyUp(event)
     {
-        console.log("keyUp>>",event.keyCode);
         //this.keyUpCode=event.keyCode;
         delete this.code[event.keyCode];
     }
     keyDown(event)
     {
-        console.log('keyDown>>',event.keyCode);
         //this.keyDownCode=event.keyCode;
         this.code[event.keyCode]=true;
     }

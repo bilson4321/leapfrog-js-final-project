@@ -5,11 +5,12 @@ class Zombie
     constructor(tileMap,player,bullet)
     {
         this.Map=tileMap;
-        this.animationState={current:0,idle:0,walking:1,shooting:2};
+        this.animationState={current:0,idle:0,walking:1,shooting:2,dead:3};
         
         this.idle=new Animation('./images/zombie_idle.png',280,700,111,69,4);
         this.walking=new Animation('./images/zombie_walking.png',280,999,111,66,6);
         this.attacking=new Animation('./images/zombie_attacking.png',280,1137,111,75,6);
+        this.dead=new Animation('./images/zombie_dead.png',280,2634,111,118,8,false);
 
         this.position={x:500,y:480};
         this.height=111;
@@ -24,7 +25,8 @@ class Zombie
         this.idleCounter=0;
         this.idleDuration=1000;
         this.patrolDistance={initialX:500,destinationX:800};
-
+        //zombie status
+        this.health=100;
         this.player=player;
         this.attackRange={height:40,width:40};
 
@@ -36,7 +38,9 @@ class Zombie
     }
     update()
     {
-        if(this.velocity.x>0.25||this.velocity.x<-0.25)
+        if(this.health>0)
+        {
+            if(this.velocity.x>0.25||this.velocity.x<-0.25)
         {
             this.animationState.current=this.animationState.walking;
         }
@@ -106,11 +110,17 @@ class Zombie
         
         this.position.x+=this.velocity.x;
         this.velocity.x*=0.5;
-       this.handleCollision();
-        //this.handleCollision();
+        this.handleCollision();
+        }
+        else
+        {
+            this.animationState.current=this.animationState.dead;
+        }
     }
     draw(canvasContext)
     {
+        canvasContext.font='20px Arial';
+        canvasContext.fillText(""+this.health,this.position.x,this.position.y-20);
        // this.handleCollision(canvasContext); // for experimental purpose only
         if(this.mirrored==1)
         {
@@ -125,6 +135,8 @@ class Zombie
             this.walking.draw(canvasContext,0,0);
             if(this.animationState.current==this.animationState.attacking)
             this.attacking.draw(canvasContext,0,0);
+            if(this.animationState.current==this.animationState.dead)
+            this.dead.draw(canvasContext,0,0);
             canvasContext.restore();
             canvasContext.strokeStyle='blue';
             canvasContext.strokeRect(this.position.x,this.position.y,this.attackRange.width,this.attackRange.height);
@@ -139,6 +151,8 @@ class Zombie
             this.walking.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.attacking)
             this.attacking.draw(canvasContext,this.position.x,this.position.y);
+            if(this.animationState.current==this.animationState.dead)
+            this.dead.draw(canvasContext,this.position.x,this.position.y);
             canvasContext.strokeStyle='blue';
             canvasContext.strokeRect(this.position.x+30,this.position.y,this.attackRange.width,this.attackRange.height);
         }
@@ -146,13 +160,16 @@ class Zombie
     handleCollision()
     {
         this.onTheGround=false;
-        // if (this.position.x < this.bullet.position.y + this.bullet.width &&
-        //              this.position.x + this.width > (j*this.Map.tileWidth) &&
-        //              this.position.y < (i*this.Map.tileHeight)+this.Map.tileHeight &&
-        //              this.position.y + this.height > (i*this.Map.tileHeight))
-        //              {
-
-        //              } 
+        if (this.position.x < this.bullet.position.x + this.bullet.width &&
+                     this.position.x + this.width > this.bullet.position.x &&
+                     this.position.y < this.bullet.position.y+this.bullet.height &&
+                     this.position.y + this.height > this.bullet.position.y)
+                     {
+                        this.health-=10;
+                        this.bullet.state='idle';
+                        this.bullet.position.x=0;
+                        console.log("zombie Health",this.health);
+                     } 
         // for(var i=0;i<this.Map.map.length;i++)
         // {
         //     for(var j=0;j<this.Map.map[i].length;j++)

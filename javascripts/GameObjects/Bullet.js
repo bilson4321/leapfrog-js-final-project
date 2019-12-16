@@ -10,24 +10,33 @@ class Bullet
         this.range=400;
         this.height=6;
         this.width=18;
+        this.mirrored=0;
     }
     update()
     {
         if(this.state=='shooting')
         {
-            this.position.x+=10;
-            
-            console.log("position>>",this.position);
-            
-            console.log("shoot>>",this.shootFrom);
-            if(this.position.x>(this.shootFrom.x+this.range))
+            if(this.mirrored==0)
+            {
+                this.position.x+=25;
+                if(this.position.x>(this.shootFrom.x+this.range))
                 this.state='idle';
+            }
+            else
+            {
+                this.position.x-=25;
+                if(this.position.x<(this.shootFrom.x-this.range))
+                this.state='idle';
+            }
+
+           
         }
     }
-    shoot(x,y)
+    shoot(x,y,mirrored)
     {
         this.shootFrom.x=x;
         this.shootFrom.y=y;
+        this.mirrored=mirrored;
         this.state='shooting';
         this.position.x=this.shootFrom.x;
         this.position.y=this.shootFrom.y;

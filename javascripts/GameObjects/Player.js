@@ -56,7 +56,7 @@ class Player
             this.animationState.current=this.animationState.shooting;
             this.shooting.start();
             if(this.bullet.state=='idle')
-            this.bullet.shoot(this.position.x+this.width,this.position.y+40);
+            this.bullet.shoot(this.position.x+this.width,this.position.y+40,this.mirrored);
             inputController.reset();
         }
     }
@@ -64,24 +64,47 @@ class Player
     {
         if(this.health>0)
         {  
-            if(this.velocity.x>2||this.velocity.x<-2)
-            this.animationState.current=this.animationState.walking;
-            else if(this.shootingState)
+            if(Math.abs(this.velocity.x)>0)
             {
-                console.log(this.shooting.getFrameIndex());
-                if(this.shooting.getFrameIndex()==5)
+                if(this.shootingState)
                 {
-                    this.shootingState=false;
-                }     
+                    this.animationState.current=this.animationState.shooting;
+                    if(this.shooting.getFrameIndex()==5)
+                    {
+                        this.shootingState=false;
+                        this.shooting.start();
+                    }  
+                }
+                else
+                {
+                    this.animationState.current=this.animationState.walking;
+                }
             }
             else
-            this.animationState.current=this.animationState.idle;
+            {
+                if(this.shootingState)
+                {
+                    this.animationState.current=this.animationState.shooting;
+                    if(this.shooting.getFrameIndex()==5)
+                    {
+                        this.shootingState=false;
+                        this.shooting.start();
+                    }    
+                }
+                else
+                {
+                    this.animationState.current=this.animationState.idle;
+                }
+               
+            }
+            
 
             if(this.velocity.x>=0)
             this.mirrored=0;
             else
             this.mirrored=1;
 
+            if(!this.shootingState)
             this.position.x+=this.velocity.x;
             this.velocity.x*=this.friction;
             this.position.y+=this.velocity.y;
@@ -91,6 +114,7 @@ class Player
             {
                 this.position.y+=2;
             }
+            this.velocity.x=0;
         }
         else
         {
@@ -101,6 +125,8 @@ class Player
     draw(canvasContext)
     {
         this.handleCollision(canvasContext); // for experimental purpose only
+        canvasContext.font='20px Arial';
+        canvasContext.fillText(""+this.health,this.position.x,this.position.y-20);
         if(this.mirrored==1)
         {
             canvasContext.save();
