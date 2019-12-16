@@ -2,7 +2,7 @@ import {Animation} from '../../Utilities/Animation.js'
 
 class Zombie
 {
-    constructor(tileMap,player)
+    constructor(tileMap,player,bullet)
     {
         this.Map=tileMap;
         this.animationState={current:0,idle:0,walking:1,shooting:2};
@@ -11,7 +11,7 @@ class Zombie
         this.walking=new Animation('./images/zombie_walking.png',280,999,111,66,6);
         this.attacking=new Animation('./images/zombie_attacking.png',280,1137,111,75,6);
 
-        this.position={x:290,y:550};
+        this.position={x:500,y:480};
         this.height=111;
         this.width=69;
         this.velocity={x:0,y:0};
@@ -23,10 +23,12 @@ class Zombie
         this.activityState={current:0,patrol:0,attacking:1};
         this.idleCounter=0;
         this.idleDuration=1000;
-        this.patrolDistance={initialX:290,destinationX:600};
+        this.patrolDistance={initialX:500,destinationX:800};
 
         this.player=player;
         this.attackRange={height:40,width:40};
+
+        this.bullet=bullet;
     }
     handleInput(inputController)
     {
@@ -144,6 +146,13 @@ class Zombie
     handleCollision()
     {
         this.onTheGround=false;
+        // if (this.position.x < this.bullet.position.y + this.bullet.width &&
+        //              this.position.x + this.width > (j*this.Map.tileWidth) &&
+        //              this.position.y < (i*this.Map.tileHeight)+this.Map.tileHeight &&
+        //              this.position.y + this.height > (i*this.Map.tileHeight))
+        //              {
+
+        //              } 
         // for(var i=0;i<this.Map.map.length;i++)
         // {
         //     for(var j=0;j<this.Map.map[i].length;j++)

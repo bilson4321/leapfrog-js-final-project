@@ -24,6 +24,10 @@ class Tile
                 {
                     return this.tile5;
                 }
+            case 9:
+                {
+                    return this.tile0;
+                }
         }
     }
 }

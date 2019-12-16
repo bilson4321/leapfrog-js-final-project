@@ -2,7 +2,7 @@ import {Animation} from '../Utilities/Animation.js';
 
 class Player
 {
-    constructor(tileMap)
+    constructor(tileMap,bullet)
     {
         this.Map=tileMap;
         this.animationState={current:0,idle:0,walking:1,shooting:2,dead:3};
@@ -16,7 +16,7 @@ class Player
         this.whenDamaged=new Image();
         this.whenDamaged.src='./images/whenDamage.png';
 
-        this.position={x:450,y:250};
+        this.position={x:250,y:360};
         this.height=122;
         this.width=58;
         this.velocity={x:0,y:0};
@@ -29,6 +29,9 @@ class Player
         this.health=100;
 
         this.previousHealth=100;//for damage taken
+
+        //bullet
+        this.bullet=bullet;
     }
     handleInput(inputController)
     {
@@ -52,6 +55,8 @@ class Player
             this.shootingState=true;
             this.animationState.current=this.animationState.shooting;
             this.shooting.start();
+            if(this.bullet.state=='idle')
+            this.bullet.shoot(this.position.x+this.width,this.position.y+40);
             inputController.reset();
         }
     }
