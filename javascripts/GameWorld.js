@@ -3,6 +3,8 @@ import { TileMap } from './GameObjects/TileMap.js';
 import { Zombie } from './GameObjects/Enemy/Zombie.js';
 import { Camera } from './Utilities/Camera.js';
 import { Bullet } from './GameObjects/Bullet.js';
+import { EnemyList } from './GameObjects/EnemyList.js';
+import { PickUpList } from './GameObjects/PickupList.js';
 
 class GameWorld
 {
@@ -15,7 +17,8 @@ class GameWorld
         this.camera=new Camera(this.worldSize);
         this.bullet=new Bullet();
         this.player=new Player(this.tileMap,this.bullet);
-        this.zombie=new Zombie(this.tileMap,this.player,this.bullet);
+        this.enemyList=new EnemyList(this.tileMap,this.player,this.bullet);
+        this.pickUpList=new PickUpList(this.tileMap,this.player);
     }
     handleInput(inputController)
     {
@@ -25,7 +28,8 @@ class GameWorld
     {
         this.tileMap.update();
         this.player.update();
-        this.zombie.update();
+        this.enemyList.update();
+        this.pickUpList.update();
         this.bullet.update();
         this.camera.updatePosition(this.player.position);
     }
@@ -35,9 +39,10 @@ class GameWorld
       
         canvasContext.drawImage(this.background,this.camera.getCameraPositionX(),0,1920,1080);
         this.tileMap.draw(canvasContext);
-        this.bullet.draw(canvasContext);
+        this.pickUpList.draw(canvasContext);
+        this.bullet.draw(canvasContext);  
         this.player.draw(canvasContext);
-        this.zombie.draw(canvasContext);
+        this.enemyList.draw(canvasContext);
     }
 }
 export {GameWorld};

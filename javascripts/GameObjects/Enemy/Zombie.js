@@ -24,7 +24,7 @@ class Zombie
         this.activityState={current:0,patrol:0,attacking:1};
         this.idleCounter=0;
         this.idleDuration=1000;
-        this.patrolDistance={initialX:500,destinationX:800};
+        this.patrolDistance={initialX:this.position.x+2,destinationX:this.position.x+400};
         //zombie status
         this.health=100;
         this.player=player;

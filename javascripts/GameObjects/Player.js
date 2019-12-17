@@ -177,9 +177,9 @@ class Player
     handleCollision(canvasContext)
     {
         this.onTheGround=false;
-        for(var i=0;i<this.Map.map.length;i++)
+        for(var i=0;i<this.Map.background.length;i++)
         {
-            for(var j=0;j<this.Map.map[i].length;j++)
+            for(var j=0;j<this.Map.background[i].length;j++)
             {
                 if (this.position.x < (j*this.Map.tileWidth) + this.Map.tileWidth &&
                     this.position.x + this.width > (j*this.Map.tileWidth) &&
@@ -191,7 +191,7 @@ class Player
                         canvasContext.strokeStyle="yellow";
                         canvasContext.strokeRect((j*this.Map.tileWidth),(i*this.Map.tileHeight),this.Map.tileWidth,this.Map.tileHeight);
                         //edge block type
-                        if(this.Map.map[i][j]==2)
+                        if(this.Map.background[i][j]==2)
                         {
                             //collision for block Type (four Direction)
                             var width=0.5*(this.width+this.Map.tileWidth);
@@ -230,7 +230,7 @@ class Player
                             }
                         }
                         //block
-                        if(this.Map.map[i][j]==5)
+                        if(this.Map.background[i][j]==5)
                         {
                             //collision for block Type (four Direction)
                             var width=0.5*(this.width+this.Map.tileWidth);

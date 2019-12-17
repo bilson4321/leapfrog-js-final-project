@@ -4,7 +4,7 @@ class Map
     {
         this.background=[];
         this.background.length=9;
-        this.background.fill(new Array(0,1));
+        this.background.fill(new Array(5,0));
         this.enemy=[];
         this.enemy.length=9;
         this.enemy.fill(new Array(0,1));
@@ -35,14 +35,57 @@ class Map
         return this.treasure;
     }
 }
+var selectedTile=0;
+function refreshMapTable()
+{
+    var that=this;
+    var background=map.getBackGround();
+    background[2][1]=5; 
+    mapTable.innerHTML='';
+    for(var i=0;i<background.length;i++)
+    {
+        var row = mapTable.insertRow(0);
+        for(var j=0;j<background[i].length;j++)
+        {
+            var cell = row.insertCell(j);
+            var tile=background[i][j];
+            var image=document.createElement('img');
+            switch(tile)
+            {
+                case 0:
+                    {
+
+                        break;
+                    }
+                case 5:
+                    {
+                        image.src='./images/tile5.png';
+                        break;
+                    }
+            }
+            image.style.width='30px';
+            console.log('function>>',this);
+            cell.appendChild(image);
+            cell.onmouseover=function(){this.style.border='1px solid brown'}.bind(cell)
+            cell.onmouseout=function(){this.style.border='0px solid black'}.bind(cell)
+            cell.onclick=function(){
+                                var rowIndex=this.parentNode.rowIndex;
+                                var cellIndex=this.cellIndex;
+                                    console.log(background[rowIndex][cellIndex]);
+                                   // background[rowIndex][cellIndex]=5;
+                                   background[2][1]=5; 
+                                    console.log(background);
+                                    refreshMapTable();
+                                    //console.log(map);
+                                };
+        }
+    }
+}
 
 var map=new Map();
 var mapTable=document.getElementById('map_table');
-console.log(map.getBackGround());
 
-var image=document.createElement('img');
-image.src='./images/tile2.png';
-image.style.width='30px';
+
 refreshMapTable();
 function addNewColumn()
 {
@@ -52,20 +95,7 @@ function addNewColumn()
     refreshMapTable();
     console.log(map.getBackGround());
 }
-function refreshMapTable()
+function tileSelect(tileno)
 {
-    var background=map.getBackGround();
-    mapTable.innerHTML='';
-    for(var i=0;i<background.length;i++)
-    {
-        var row = mapTable.insertRow(0);
-        for(var j=0;j<background[i].length;j++)
-        {
-            var cell = row.insertCell(j);
-            cell.innerHTML='h';
-            cell.appendChild(image);
-            cell.onmouseover=function(){this.style.border='4px solid black'}.bind(cell)
-            cell.onmouseout=function(){this.style.border='1px solid black'}.bind(cell)
-        }
-    }
+    selectedTile=tileno;
 }

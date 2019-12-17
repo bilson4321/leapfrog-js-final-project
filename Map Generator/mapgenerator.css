@@ -35,3 +35,7 @@
     height: 220px;
     background-color:yellow;
 }
+#map_table
+{
+    border-collapse: collapse;
+}
