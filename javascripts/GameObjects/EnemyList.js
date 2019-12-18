@@ -1,4 +1,5 @@
 import { Zombie } from "./Enemy/Zombie.js";
+import { OrcLord } from "./Enemy/OrcLord.js";
 
 class EnemyList
 {
@@ -29,6 +30,16 @@ class EnemyList
                             this.list.push(enemy);
                             break;
                         }
+                    case 3:
+                            {
+                                var mainVillain=new OrcLord(this.Map,this.player,this.bullet);
+                                mainVillain.position.x=j*this.Map.tileWidth;
+                                mainVillain.position.y=i*this.Map.tileHeight;
+                                mainVillain.patrolDistance.initialX=mainVillain.position.x;
+                                mainVillain.patrolDistance.destinationX=mainVillain.position.x+250;
+                                this.list.push(mainVillain);
+                                break;
+                            }
                 }
             }
         }

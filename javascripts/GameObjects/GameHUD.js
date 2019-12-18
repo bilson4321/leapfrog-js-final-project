@@ -1,8 +1,8 @@
 class GameHUD
 {
-    constructor()
+    constructor(game)
     {
-
+        
     }
 }
 export {GameHUD};
