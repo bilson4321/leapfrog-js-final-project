@@ -1,16 +1,16 @@
-class TitleScreen
+class GameOverState
 {
     constructor(gameState)
     {
         this.background=new Image();
-        this.background.src='./images/titleScreen.png';
+        this.background.src='./images/gameOver.png';
         this.gameState=gameState;
     }
     handleInput(inputController)
     {
-        if(inputController.isKeyDown(32))
+        if(inputController.isKeyDown(13))
         {
-            this.gameState.currentState=this.gameState.playingState;
+            this.gameState.currentState=this.gameState.titleScreen;
             inputController.reset();
         }
     }
@@ -24,4 +24,4 @@ class TitleScreen
     }
 }
 
-export {TitleScreen};
+export {GameOverState};

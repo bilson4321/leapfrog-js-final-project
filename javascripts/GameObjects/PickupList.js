@@ -62,6 +62,11 @@ class PickUpList
             this.list[i].draw(canvasContext);
         }
     }
+    reset()
+    {
+        this.list=[];
+        this.generateCoin();
+    }
 }
 
 export {PickUpList};

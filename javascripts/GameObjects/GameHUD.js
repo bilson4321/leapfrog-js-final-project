@@ -33,5 +33,9 @@ class GameHUD
         canvasContext.fillText(""+this.game.player.coinCollected,this.position.x+44,this.position.y+112);
         canvasContext.fillText(""+this.game.player.bulletCount,this.position.x+40,this.position.y+156);
     }
+    reset()
+    {
+        this.position={x:30,y:10};
+    }
 }
 export {GameHUD};

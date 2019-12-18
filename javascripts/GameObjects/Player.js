@@ -2,8 +2,9 @@ import {Animation} from '../Utilities/Animation.js';
 
 class Player
 {
-    constructor(tileMap,bullet)
+    constructor(tileMap,bullet,gameWorldState)
     {
+        this.gameWorldState=gameWorldState;
         this.Map=tileMap;
         this.animationState={current:0,idle:0,walking:1,shooting:2,dead:3};
         
@@ -122,6 +123,14 @@ class Player
         else
         {
             this.animationState.current=this.animationState.dead;
+            if(this.dead.getFrameIndex()==5)
+            {
+                this.gameWorldState.current=this.gameWorldState.gameOver;
+            }
+        }
+        if(this.position.y>720)
+        {
+            this.gameWorldState.current=this.gameWorldState.gameOver;
         }
         //this.handleCollision();
     }
@@ -272,6 +281,16 @@ class Player
                     }  
             }
         }
+    }
+    reset()
+    {
+        this.animationState.current=this.animationState.idle;
+        this.position={x:250,y:360};
+        this.velocity={x:0,y:0};
+        this.health=100;
+        this.bulletCount=10;
+        this.coinCollected=0;
+        this.previousHealth=100;
     }
 }
 export {Player};

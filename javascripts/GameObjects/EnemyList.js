@@ -58,5 +58,10 @@ class EnemyList
             this.list[i].draw(canvasContext);
         }
     }
+    reset()
+    {
+        this.list=[];
+        this.generateEnemy();
+    }
 }
 export {EnemyList}
