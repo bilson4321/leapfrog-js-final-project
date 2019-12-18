@@ -28,6 +28,7 @@ class Ammunition
             this.position.y + this.height > this.player.position.y)
             {
                 this.status='collected';
+                this.player.bulletCount+=10;
             } 
     }
 }

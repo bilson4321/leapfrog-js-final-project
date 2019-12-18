@@ -27,6 +27,7 @@ class Coin
             this.position.y < this.player.position.y+this.player.height &&
             this.position.y + this.height > this.player.position.y)
             {
+                this.player.coinCollected+=5;
                 this.status='collected';
             } 
     }

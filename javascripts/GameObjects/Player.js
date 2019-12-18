@@ -27,6 +27,8 @@ class Player
 
         //Player status
         this.health=100;
+        this.bulletCount=10;
+        this.coinCollected=0;
 
         this.previousHealth=100;//for damage taken
 
@@ -50,10 +52,11 @@ class Player
             this.velocity.y-=118;
             inputController.reset();
         }
-        if(inputController.isKeyDown(32)&&this.onTheGround&&!this.shootingState)
+        if(inputController.isKeyDown(32)&&this.onTheGround&&!this.shootingState&&this.bulletCount>0)
         {
             this.shootingState=true;
             this.animationState.current=this.animationState.shooting;
+            this.bulletCount--;
             this.shooting.start();
             if(this.bullet.state=='idle')
             this.bullet.shoot(this.position.x+this.width,this.position.y+40,this.mirrored);
@@ -125,8 +128,6 @@ class Player
     draw(canvasContext)
     {
         this.handleCollision(canvasContext); // for experimental purpose only
-        canvasContext.font='20px Arial';
-        canvasContext.fillText(""+this.health,this.position.x,this.position.y-20);
         if(this.mirrored==1)
         {
             canvasContext.save();

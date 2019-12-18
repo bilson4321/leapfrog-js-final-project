@@ -5,6 +5,7 @@ import { Camera } from './Utilities/Camera.js';
 import { Bullet } from './GameObjects/Bullet.js';
 import { EnemyList } from './GameObjects/EnemyList.js';
 import { PickUpList } from './GameObjects/PickupList.js';
+import { GameHUD } from './GameObjects/GameHUD.js';
 
 class GameWorld
 {
@@ -19,6 +20,7 @@ class GameWorld
         this.player=new Player(this.tileMap,this.bullet);
         this.enemyList=new EnemyList(this.tileMap,this.player,this.bullet);
         this.pickUpList=new PickUpList(this.tileMap,this.player);
+        this.gameHud=new GameHUD(this);
     }
     handleInput(inputController)
     {
@@ -32,6 +34,7 @@ class GameWorld
         this.pickUpList.update();
         this.bullet.update();
         this.camera.updatePosition(this.player.position);
+        this.gameHud.update();
     }
     draw(canvasContext)
     {
@@ -43,6 +46,7 @@ class GameWorld
         this.bullet.draw(canvasContext);  
         this.player.draw(canvasContext);
         this.enemyList.draw(canvasContext);
+        this.gameHud.draw(canvasContext);
     }
 }
 export {GameWorld};
