@@ -68,6 +68,8 @@ class Zombie
                         {
                             this.activityState.current=this.activityState.attacking;
                             this.animationState.current=this.animationState.attacking;
+                            if(this.player.knifeExtended==true)
+                                this.health-=30;
                         }
                     }
             }
@@ -88,6 +90,8 @@ class Zombie
                         {
                             this.activityState.current=this.activityState.attacking;
                             this.animationState.current=this.animationState.attacking;
+                            if(this.player.knifeExtended==true)
+                                this.health-=30;
                         }
                     }
 
@@ -165,7 +169,7 @@ class Zombie
                      this.position.y < this.bullet.position.y+this.bullet.height &&
                      this.position.y + this.height > this.bullet.position.y)
                      {
-                        this.health-=10;
+                        this.health-=30;
                         this.bullet.state='idle';
                         this.bullet.position.x=0;
                      } 

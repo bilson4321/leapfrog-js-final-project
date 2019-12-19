@@ -12,10 +12,10 @@ class Camera
     updatePosition(position)
     {
         this.entityPosition.x=position.x;
-        if(this.entityPosition.x>this.previousPosition.x&&this.entityPosition.x>520&&this.entityPosition.x<this.gameWorldSize.width-500)
-        this.i=-3;
-        else if(this.entityPosition.x<this.previousPosition.x&&this.entityPosition.x>520&&this.entityPosition.x<this.gameWorldSize.width-500)
-        this.i=+3;
+        if(this.entityPosition.x>this.previousPosition.x&&this.entityPosition.x>420&&this.entityPosition.x<this.gameWorldSize.width-540)
+        this.i=this.previousPosition.x-this.entityPosition.x;
+        else if(this.entityPosition.x<this.previousPosition.x&&this.entityPosition.x>420&&this.entityPosition.x<this.gameWorldSize.width-540)
+        this.i=-(this.entityPosition.x-this.previousPosition.x);
         else
         this.i=0;
         

@@ -3,12 +3,13 @@ import { OrcLord } from "./Enemy/OrcLord.js";
 
 class EnemyList
 {
-    constructor(tileMap,player,bullet)
+    constructor(tileMap,player,bullet,mainVillainState)
     {
         this.list=[];
         this.Map=tileMap;
         this.player=player;
         this.bullet=bullet;
+        this.mainVillainState=mainVillainState;
         this.generateEnemy();
     }
     generateEnemy()
@@ -32,7 +33,7 @@ class EnemyList
                         }
                     case 3:
                             {
-                                var mainVillain=new OrcLord(this.Map,this.player,this.bullet);
+                                var mainVillain=new OrcLord(this.Map,this.player,this.bullet,this.mainVillainState);
                                 mainVillain.position.x=j*this.Map.tileWidth;
                                 mainVillain.position.y=i*this.Map.tileHeight;
                                 mainVillain.patrolDistance.initialX=mainVillain.position.x;

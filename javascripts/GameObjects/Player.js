@@ -26,6 +26,7 @@ class Player
         this.onTheGround=false;
         this.shootingState=false;
         this.strikeState=false;
+        this.knifeExtended=false;
 
         //Player status
         this.health=100;
@@ -78,6 +79,7 @@ class Player
     }
     update()
     {
+        this.knifeExtended=false;
         if(this.health>0)
         {  
             if(Math.abs(this.velocity.x)>0)
@@ -96,6 +98,7 @@ class Player
                     this.animationState.current=this.animationState.knife;
                     if(this.knife.getFrameIndex()==5)
                     {
+                        this.knifeExtended=true;
                         this.strikeState=false;
                         this.knife.start();
                     }  
@@ -121,6 +124,7 @@ class Player
                     this.animationState.current=this.animationState.knife;
                     if(this.knife.getFrameIndex()==5)
                     {
+                        this.knifeExtended=true;
                         this.strikeState=false;
                         this.knife.start();
                     }  
@@ -138,7 +142,7 @@ class Player
             else
             this.mirrored=1;
 
-            if(!this.shootingState)
+            if(!this.shootingState&&!this.strikeState)
             this.position.x+=this.velocity.x;
             this.velocity.x*=this.friction;
             this.position.y+=this.velocity.y;
@@ -329,6 +333,8 @@ class Player
         this.bulletCount=10;
         this.coinCollected=0;
         this.previousHealth=100;
+        this.shootingState=false;
+        this.strikeState=false;
     }
 }
 export {Player};

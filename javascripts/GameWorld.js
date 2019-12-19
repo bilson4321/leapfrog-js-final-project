@@ -1,6 +1,5 @@
 import {Player} from './GameObjects/Player.js';
 import { TileMap } from './GameObjects/TileMap.js';
-import { Zombie } from './GameObjects/Enemy/Zombie.js';
 import { Camera } from './Utilities/Camera.js';
 import { Bullet } from './GameObjects/Bullet.js';
 import { EnemyList } from './GameObjects/EnemyList.js';
@@ -11,6 +10,7 @@ class GameWorld
 {
     constructor()
     {
+        this.mainVillainState={currentState:0,alive:0,dead:1,treasureLooted:2};   //to pass by reference as parameter
         this.background=new Image();
         this.state={current:0,running:0,gameWon:1,gameOver:2};
         this.background.src='./images/background.png';
@@ -19,9 +19,9 @@ class GameWorld
         this.camera=new Camera(this.worldSize);
         this.bullet=new Bullet();
         this.player=new Player(this.tileMap,this.bullet,this.state);
-        this.enemyList=new EnemyList(this.tileMap,this.player,this.bullet);
-        this.pickUpList=new PickUpList(this.tileMap,this.player);
-        this.gameHud=new GameHUD(this);
+        this.enemyList=new EnemyList(this.tileMap,this.player,this.bullet,this.mainVillainState);
+        this.pickUpList=new PickUpList(this.tileMap,this.player,this.mainVillainState);
+        this.gameHud=new GameHUD(this); 
     }
     handleInput(inputController)
     {

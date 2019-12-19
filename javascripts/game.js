@@ -3,6 +3,7 @@ import {PlayingState} from './GameStates/PlayingState.js';
 import {InputController} from './InputController.js';
 import { GameOverState } from './GameStates/GameOverState.js';
 import { HelpScreen } from './GameStates/HelpScreen.js';
+import { GameWonState } from './GameStates/GameWonState.js';
 
 class Game
 {
@@ -17,9 +18,10 @@ class Game
         
         this.inputController=new InputController(this.canvas);
         
-        this.gameState={currentState:0,titleScreen:0,playingState:1,gameOverState:2,helpScreen:3};
+        this.gameState={currentState:0,titleScreen:0,playingState:1,gameOverState:2,gameWonState:3,helpScreen:4};
         this.titleScreen=new TitleScreen(this.gameState);
         this.playingState=new PlayingState(this.gameState); 
+        this.gameWonState=new GameWonState(this.gameState); 
         this.gameOverState=new GameOverState(this.gameState); 
         this.helpScreen=new HelpScreen(this.gameState);    
     }
@@ -54,6 +56,12 @@ class Game
             this.helpScreen.handleInput(this.inputController);
             this.helpScreen.update();
             this.helpScreen.draw(this.canvasContext);
+        }
+        if(this.gameState.currentState==this.gameState.gameWonState)
+        {
+            this.gameWonState.handleInput(this.inputController);
+            this.gameWonState.update();
+            this.gameWonState.draw(this.canvasContext);
         }
         
         window.requestAnimationFrame(this.render.bind(this));

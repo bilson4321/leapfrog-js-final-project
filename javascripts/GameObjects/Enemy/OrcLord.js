@@ -2,7 +2,7 @@ import {Animation} from '../../Utilities/Animation.js'
 
 class OrcLord
 {
-    constructor(tileMap,player,bullet)
+    constructor(tileMap,player,bullet,mainVillainState)
     {
         this.Map=tileMap;
         this.animationState={current:0,idle:0,walking:1,attacking:2,dead:3};
@@ -10,7 +10,7 @@ class OrcLord
         this.idle=new Animation('./images/villain_idle.png',280,2485,181,232,7);
         this.walking=new Animation('./images/villain_walk.png',280,2526,181,232,7);
         this.attacking=new Animation('./images/villain_attack.png',280,2037,241,232,7);
-        this.dead=new Animation('./images/villain_die.png',280,3189,181,294,7,false);
+        this.dead=new Animation('./images/villain_die.png',280,3189,181,309,7,false);
 
         this.position={x:500,y:480};
         this.height=181;
@@ -26,7 +26,7 @@ class OrcLord
         this.health=100;
         this.player=player;
         this.attackRange={height:140,width:90};
-
+        this.mainVillainState=mainVillainState;
         this.bullet=bullet;
     }
     handleInput(inputController)
@@ -65,6 +65,8 @@ class OrcLord
                         {
                             this.activityState.current=this.activityState.attacking;
                             this.animationState.current=this.animationState.attacking;
+                            if(this.player.knifeExtended==true)
+                                this.health-=20;
                         }
                     }
             }
@@ -85,6 +87,8 @@ class OrcLord
                         {
                             this.activityState.current=this.activityState.attacking;
                             this.animationState.current=this.animationState.attacking;
+                            if(this.player.knifeExtended==true)
+                                this.health-=20;
                         }
                     }
 
@@ -112,6 +116,10 @@ class OrcLord
         else
         {
             this.animationState.current=this.animationState.dead;
+            if(this.dead.getFrameIndex()==6)
+            {
+                this.mainVillainState.currentState=this.mainVillainState.dead;
+            }
         }
     }
     draw(canvasContext)
@@ -161,7 +169,7 @@ class OrcLord
                      this.position.y < this.bullet.position.y+this.bullet.height &&
                      this.position.y + this.height > this.bullet.position.y)
                      {
-                        this.health-=10;
+                        this.health-=15;
                         this.bullet.state='idle';
                         this.bullet.position.x=0;
                         console.log("Orc Health",this.health);

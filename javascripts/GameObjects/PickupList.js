@@ -1,14 +1,16 @@
 import { Coin } from "./Pickups/Coin.js";
 import { Health } from "./Pickups/Health.js";
 import { Ammunition } from "./Pickups/Ammunition.js";
+import { Treasure } from "./Pickups/Treasure.js";
 
 class PickUpList
 {
-    constructor(tileMap,player)
+    constructor(tileMap,player,mainVillainState)
     {
         this.list=[];
         this.Map=tileMap;
         this.player=player;
+        this.mainVillainState=mainVillainState;
         this.generateCoin();
     }
     generateCoin()
@@ -37,13 +39,21 @@ class PickUpList
                             break;
                         }
                     case 3:
-                            {
-                                var ammunition=new Ammunition(this.player);
-                                ammunition.position.x=j*this.Map.tileWidth+(this.Map.tileWidth/2);
-                                ammunition.position.y=i*this.Map.tileHeight+(this.Map.tileHeight-ammunition.height);
-                                this.list.push(ammunition);
-                                break;
-                            }
+                        {
+                            var ammunition=new Ammunition(this.player);
+                            ammunition.position.x=j*this.Map.tileWidth+(this.Map.tileWidth/2);
+                            ammunition.position.y=i*this.Map.tileHeight+(this.Map.tileHeight-ammunition.height);
+                            this.list.push(ammunition);
+                            break;
+                        }
+                    case 4:
+                        {
+                            var treasure=new Treasure(this.player,this.mainVillainState)
+                            treasure.position.x=j*this.Map.tileWidth+(this.Map.tileWidth/2);
+                            treasure.position.y=i*this.Map.tileHeight+(this.Map.tileHeight-treasure.height);
+                            this.list.push(treasure);
+                            break;
+                        }
                 }
             }
         }
