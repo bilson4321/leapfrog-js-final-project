@@ -9,7 +9,7 @@ class OrcLord
         
         this.idle=new Animation('./images/villain_idle.png',280,2485,181,232,7);
         this.walking=new Animation('./images/villain_walk.png',280,2526,181,232,7);
-        this.attacking=new Animation('./images/villain_attack.png',280,2037,181,232,7);
+        this.attacking=new Animation('./images/villain_attack.png',280,2037,241,232,7);
         this.dead=new Animation('./images/villain_die.png',280,3189,181,294,7,false);
 
         this.position={x:500,y:480};
@@ -38,13 +38,13 @@ class OrcLord
         if(this.health>0)
         {
             if(this.velocity.x>0.25||this.velocity.x<-0.25)
-        {
+            {
             this.animationState.current=this.animationState.walking;
-        }
-        else
-        {
+            }
+            else
+            {
             this.animationState.current=this.animationState.idle;
-        }
+            }
 
         if(this.activityState.current==this.activityState.patrol)
         {
@@ -94,8 +94,8 @@ class OrcLord
         {
             this.velocity.x=0;
             this.idleCounter++;
-            if(this.player.health>0&&this.attacking.getFrameIndex()==7)
-                this.player.health-=5;
+            if(this.player.health>0&&this.attacking.getFrameIndex()==5)
+                this.player.health-=4;
             if(this.idleCounter<500)
             {
                 this.idleCounter=0;
@@ -131,7 +131,7 @@ class OrcLord
             if(this.animationState.current==this.animationState.walking)
             this.walking.draw(canvasContext,0,0);
             if(this.animationState.current==this.animationState.attacking)
-            this.attacking.draw(canvasContext,0,0);
+            this.attacking.draw(canvasContext,0,-60);
             if(this.animationState.current==this.animationState.dead)
             this.dead.draw(canvasContext,0,0);
             canvasContext.restore();
@@ -147,7 +147,7 @@ class OrcLord
             if(this.animationState.current==this.animationState.walking)
             this.walking.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.attacking)
-            this.attacking.draw(canvasContext,this.position.x,this.position.y);
+            this.attacking.draw(canvasContext,this.position.x,this.position.y-60);
             if(this.animationState.current==this.animationState.dead)
             this.dead.draw(canvasContext,this.position.x,this.position.y);
             canvasContext.strokeStyle='blue';

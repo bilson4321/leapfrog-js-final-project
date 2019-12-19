@@ -13,9 +13,9 @@ class Camera
     {
         this.entityPosition.x=position.x;
         if(this.entityPosition.x>this.previousPosition.x&&this.entityPosition.x>520&&this.entityPosition.x<this.gameWorldSize.width-500)
-        this.i=-2;
+        this.i=-3;
         else if(this.entityPosition.x<this.previousPosition.x&&this.entityPosition.x>520&&this.entityPosition.x<this.gameWorldSize.width-500)
-        this.i=+2;
+        this.i=+3;
         else
         this.i=0;
         
@@ -33,7 +33,7 @@ class Camera
     }
     reset()
     {
-        this.canvasContext.resetTransform();
+        this.canvasContext.translate(this.x,0);
         this.entityPosition={x:0,y:0};
         this.previousPosition={x:0,y:0};
         this.i=-1;

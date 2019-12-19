@@ -6,14 +6,14 @@ class Player
     {
         this.gameWorldState=gameWorldState;
         this.Map=tileMap;
-        this.animationState={current:0,idle:0,walking:1,shooting:2,dead:3};
+        this.animationState={current:0,idle:0,walking:1,shooting:2,knife:3,dead:4,fallingDown:5};
         
         this.idle=new Animation('./images/idle.png',280,1029,129,58,8);
         this.walking=new Animation('./images/walking.png',280,1196,129,64,8);
         this.shooting=new Animation('./images/shooting.png',280,1168,129,90,6);
+        this.knife=new Animation('./images/knifeStrike.png',280,779,129,60,6);
         this.dead=new Animation('./images/dead.png',280,1504,129,116,6,false);
-        // this.jumpUp=new Animation('');
-        // this.fallingDown=new Animation('');
+        this.fallingDown=new Animation('./images/falling.png',280,669,126,71,4);
         this.whenDamaged=new Image();
         this.whenDamaged.src='./images/whenDamage.png';
 
@@ -25,13 +25,14 @@ class Player
         this.mirrored=0;
         this.onTheGround=false;
         this.shootingState=false;
+        this.strikeState=false;
 
         //Player status
         this.health=100;
         this.bulletCount=10;
         this.coinCollected=0;
 
-        this.previousHealth=100;//for damage taken
+        this.previousHealth=100;//for damage taken indication
 
         //bullet
         this.bullet=bullet;
@@ -40,29 +41,40 @@ class Player
     {
         if(inputController.isKeyDown(39))
         {
-            this.velocity.x+=2;
+            this.velocity.x+=3;
             inputController.reset();
         }
-        if(inputController.isKeyDown(37))
+        else if(inputController.isKeyDown(37))
         {
-            this.velocity.x-=2;
+            this.velocity.x-=3;
             inputController.reset();
+        }
+        else if(this.onTheGround)
+        {
+            this.velocity.x=0;
         }
         if(inputController.isKeyDown(38)&&this.onTheGround)
         {
-            this.velocity.y-=118;
+            this.velocity.y-=138;
             inputController.reset();
         }
-        if(inputController.isKeyDown(32)&&this.onTheGround&&!this.shootingState&&this.bulletCount>0)
+        else if(inputController.isKeyDown(32)&&this.onTheGround&&!this.shootingState&&this.bulletCount>0)
         {
-            this.shootingState=true;
-            this.animationState.current=this.animationState.shooting;
-            this.bulletCount--;
-            this.shooting.start();
-            if(this.bullet.state=='idle')
-            this.bullet.shoot(this.position.x+this.width,this.position.y+40,this.mirrored);
-            inputController.reset();
+                this.shootingState=true;
+                this.animationState.current=this.animationState.shooting;
+                this.bulletCount--;
+                this.shooting.start();
+                if(this.bullet.state=='idle')
+                    this.bullet.shoot(this.position.x+this.width,this.position.y+40,this.mirrored);
+                inputController.reset();
         }
+        else if(inputController.isKeyDown(32)&&this.onTheGround&&!this.shootingState&&this.bulletCount==0)
+        {
+                this.strikeState=true;
+                this.animationState.current=this.animationState.knife;
+                inputController.reset();
+        }
+        
     }
     update()
     {
@@ -77,6 +89,15 @@ class Player
                     {
                         this.shootingState=false;
                         this.shooting.start();
+                    }  
+                }
+                else if(this.strikeState)
+                {
+                    this.animationState.current=this.animationState.knife;
+                    if(this.knife.getFrameIndex()==5)
+                    {
+                        this.strikeState=false;
+                        this.knife.start();
                     }  
                 }
                 else
@@ -94,6 +115,15 @@ class Player
                         this.shootingState=false;
                         this.shooting.start();
                     }    
+                }
+                else if(this.strikeState)
+                {
+                    this.animationState.current=this.animationState.knife;
+                    if(this.knife.getFrameIndex()==5)
+                    {
+                        this.strikeState=false;
+                        this.knife.start();
+                    }  
                 }
                 else
                 {
@@ -116,9 +146,9 @@ class Player
 
             if(!this.onTheGround) 
             {
-                this.position.y+=2;
+                this.velocity.y+=4;
+                this.animationState.current=this.animationState.fallingDown;
             }
-            this.velocity.x=0;
         }
         else
         {
@@ -128,7 +158,7 @@ class Player
                 this.gameWorldState.current=this.gameWorldState.gameOver;
             }
         }
-        if(this.position.y>720)
+        if(this.position.y>680)
         {
             this.gameWorldState.current=this.gameWorldState.gameOver;
         }
@@ -156,8 +186,12 @@ class Player
                 this.walking.draw(canvasContext,0,0);
                 if(this.animationState.current==this.animationState.shooting)
                 this.shooting.draw(canvasContext,0,0);
+                if(this.animationState.current==this.animationState.knife)
+                this.knife.draw(canvasContext,0,0);
                 if(this.animationState.current==this.animationState.dead)
                 this.dead.draw(canvasContext,-25,0);
+                if(this.animationState.current==this.animationState.fallingDown)
+                this.fallingDown.draw(canvasContext,0,0);
             }
             
             canvasContext.restore();
@@ -178,8 +212,12 @@ class Player
             this.walking.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.shooting)
             this.shooting.draw(canvasContext,this.position.x,this.position.y);
+            if(this.animationState.current==this.animationState.knife)
+            this.knife.draw(canvasContext,this.position.x,this.position.y);
             if(this.animationState.current==this.animationState.dead)
             this.dead.draw(canvasContext,this.position.x-25,this.position.y);
+            if(this.animationState.current==this.animationState.fallingDown)
+            this.fallingDown.draw(canvasContext,this.position.x,this.position.y);
             }
         }
         this.previousHealth=this.health;
@@ -221,7 +259,7 @@ class Player
                                     else
                                     {
                                         this.velocity.x=0;
-                                        this.position.x-=2;
+                                        this.position.x-=3;
                                     }
                                 }
                                 else
@@ -229,7 +267,7 @@ class Player
                                     if(wy>-hx)
                                     {
                                         this.velocity.x=0;
-                                        this.position.x+=2;
+                                        this.position.x+=3;
                                     }
                                     else
                                     {
@@ -260,7 +298,7 @@ class Player
                                     else
                                     {
                                         this.velocity.x=0;
-                                        this.position.x-=2;
+                                        this.position.x-=3;
                                     }
                                 }
                                 else
@@ -268,7 +306,7 @@ class Player
                                     if(wy>-hx)
                                     {
                                         this.velocity.x=0;
-                                        this.position.x+=2;
+                                        this.position.x+=3;
                                     }
                                     else
                                     {

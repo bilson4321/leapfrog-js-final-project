@@ -41,13 +41,13 @@ class Zombie
         if(this.health>0)
         {
             if(this.velocity.x>0.25||this.velocity.x<-0.25)
-        {
+            {
             this.animationState.current=this.animationState.walking;
-        }
-        else
-        {
-            this.animationState.current=this.animationState.idle;
-        }
+            }
+            else
+            {
+                this.animationState.current=this.animationState.idle;
+             }
 
         if(this.activityState.current==this.activityState.patrol)
         {
@@ -97,8 +97,8 @@ class Zombie
         {
             this.velocity.x=0;
             this.idleCounter++;
-            if(this.player.health>0&&this.attacking.getFrameIndex()==5)
-                this.player.health-=5;
+            if(this.player.health>0&&this.attacking.getFrameIndex()==4)
+                this.player.health-=2;
             if(this.idleCounter<500)
             {
                 this.idleCounter=0;
@@ -168,7 +168,6 @@ class Zombie
                         this.health-=10;
                         this.bullet.state='idle';
                         this.bullet.position.x=0;
-                        console.log("zombie Health",this.health);
                      } 
         // for(var i=0;i<this.Map.map.length;i++)
         // {
