@@ -2,7 +2,7 @@ import {TitleScreen} from './GameStates/TitleScreen.js';
 import {PlayingState} from './GameStates/PlayingState.js';
 import {InputController} from './InputController.js';
 import { GameOverState } from './GameStates/GameOverState.js';
-import { HelpScreen } from './GameStates/helpScreen.js';
+import { HelpScreen } from './GameStates/HelpScreen.js';
 
 class Game
 {
