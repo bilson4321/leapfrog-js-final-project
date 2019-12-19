@@ -2,6 +2,7 @@ class Animation
 {
     constructor(spriteSheet,sourceHeight,sourceWidth,height,width,noOfFrame,repeat=true)
     {
+        
         this.image=new Image();
         this.image.src=spriteSheet;
         this.imageSourceHeight=sourceHeight;

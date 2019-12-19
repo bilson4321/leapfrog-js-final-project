@@ -51,10 +51,6 @@ class TileMap
                 canvasContext.drawImage(this.tile.returnImage(this.background[i][j]),j*this.tileWidth,i*this.tileHeight,this.tileWidth,this.tileHeight);
             }
         }
-        // for(var i=0;i<this.map.length;i++)
-        // {  
-        //     canvasContext.drawImage(this.tile.returnImage(this.map[i]),i*this.tileWidth,450,this.tileWidth,this.tileHeight);
-        // }
     }
     getMapWidth()
     {

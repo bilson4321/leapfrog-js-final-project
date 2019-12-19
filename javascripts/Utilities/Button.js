@@ -1,9 +1,10 @@
 class Button
 {
-    constructor(image,posx,posy,height,width)
+    constructor(assetManager,imageName,image,posx,posy,height,width)
     {
-        this.image=new Image();
-        this.image.src=image;
+        this.assetManager=assetManager;
+        this.imageName=imageName;
+        this.assetManager.loadImageAsset(this.imageName,image);
         this.position={x:posx,y:posy};
         this.height=height;
         this.width=width;
@@ -22,7 +23,7 @@ class Button
     }
     draw(canvasContext)
     {
-        canvasContext.drawImage(this.image,this.position.x,this.position.y,this.width,this.height);
+        canvasContext.drawImage(this.assetManager.getImageAsset(this.imageName),this.position.x,this.position.y,this.width,this.height);
     }
 }
 export {Button};

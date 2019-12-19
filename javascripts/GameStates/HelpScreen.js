@@ -2,12 +2,12 @@ import { Button } from "../Utilities/Button.js";
 
 class HelpScreen
 {
-    constructor(gameState)
+    constructor(assetManager,gameState)
     {
-        this.background=new Image();
-        this.background.src='./images/helpScreen.png';
+        this.assetManager=assetManager;
+        this.assetManager.loadImageAsset('helpScreen','./images/helpScreen.png');
         this.gameState=gameState;
-        this.backButton=new Button('./images/playButton.png',390,400,60,190);
+        this.backButton=new Button(this.assetManager,'backButton','./images/backButton.png',20,20,60,190);
     }
     handleInput(inputController)
     {
@@ -23,7 +23,7 @@ class HelpScreen
     }
     draw(canvasContext)
     {
-        canvasContext.drawImage(this.background,0,0);
+        canvasContext.drawImage(this.assetManager.getImageAsset('helpScreen'),0,0);
         this.backButton.draw(canvasContext);
     }
 }

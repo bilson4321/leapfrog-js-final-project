@@ -2,9 +2,10 @@ import {GameWorld} from '../GameWorld.js';
 
 class PlayingState
 {
-    constructor(gameState)
+    constructor(assetManager,gameState)
     {
-        this.gameWorld=new GameWorld();
+        this.assetManager=assetManager;
+        this.gameWorld=new GameWorld(this.assetManager);
         this.gameState=gameState;
         this.coinCollected=0;
     }
@@ -43,7 +44,6 @@ class PlayingState
     }
     draw(canvasContext)
     {
-      //  canvasContext.drawImage(this.background,450,450);
         this.gameWorld.draw(canvasContext);
     }
 }

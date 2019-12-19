@@ -2,13 +2,13 @@ import { Button } from "../Utilities/Button.js";
 
 class TitleScreen
 {
-    constructor(gameState)
+    constructor(assetManager,gameState)
     {
-        this.background=new Image();
-        this.background.src='./images/titleScreen.png';
+        this.assetManager=assetManager;
+        this.assetManager.loadImageAsset('titleScreen','./images/titleScreen.png');
         this.gameState=gameState;
-        this.playButton=new Button('./images/playButton.png',390,400,60,190);
-        this.helpButton=new Button('./images/playButton.png',390,500,60,190);
+        this.playButton=new Button(this.assetManager,'playButton','./images/playButton.png',390,400,60,190);
+        this.helpButton=new Button(this.assetManager,'helpButton','./images/helpButton.png',390,500,60,190);
     }
     handleInput(inputController)
     {
@@ -30,7 +30,7 @@ class TitleScreen
     }
     draw(canvasContext)
     {
-        canvasContext.drawImage(this.background,0,0);
+        canvasContext.drawImage(this.assetManager.getImageAsset('titleScreen'),0,0);
         this.playButton.draw(canvasContext);
         this.helpButton.draw(canvasContext);
     }

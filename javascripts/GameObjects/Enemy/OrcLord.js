@@ -172,7 +172,6 @@ class OrcLord
                         this.health-=15;
                         this.bullet.state='idle';
                         this.bullet.position.x=0;
-                        console.log("Orc Health",this.health);
                      } 
       
     }

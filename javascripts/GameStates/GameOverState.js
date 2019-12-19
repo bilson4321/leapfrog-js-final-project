@@ -2,12 +2,12 @@ import { Button } from "../Utilities/Button.js";
 
 class GameOverState
 {
-    constructor(gameState)
+    constructor(assetManager,gameState)
     {
-        this.background=new Image();
-        this.background.src='./images/gameOver.png';
+        this.assetManager=assetManager;
+        this.assetManager.loadImageAsset('gameOverScreen','./images/gameOver.png');
         this.gameState=gameState;
-        this.restartButton=new Button('./images/restartButton.png',380,480,60,140);
+        this.restartButton=new Button(this.assetManager,'restartButton','./images/restartButton.png',380,480,60,140);
         this.coinCollected=0;
     }
     handleInput(inputController)
@@ -22,14 +22,11 @@ class GameOverState
             this.restartButton.buttonClicked=false;
         }
     }
-    updateScore(coin)
-    {
-        this.coinCollected=coin;
-    }
     draw(canvasContext)
     {
-        canvasContext.drawImage(this.background,0,0);
-        canvasContext.fillText("You Died",390,400);
+        canvasContext.drawImage(this.assetManager.getImageAsset('gameOverScreen'),0,0);
+        canvasContext.fillText("You Died",390,380);
+        canvasContext.fillText("You Collected : "+this.coinCollected,390,430);
         this.restartButton.draw(canvasContext);
     }
 }

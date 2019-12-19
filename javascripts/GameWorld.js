@@ -8,12 +8,13 @@ import { GameHUD } from './GameObjects/GameHUD.js';
 
 class GameWorld
 {
-    constructor()
+    constructor(assetManager)
     {
+        this.assetManager=assetManager;
         this.mainVillainState={currentState:0,alive:0,dead:1,treasureLooted:2};   //to pass by reference as parameter
-        this.background=new Image();
+        this.assetManager.loadImageAsset('backGround','./images/background.png');
         this.state={current:0,running:0,gameWon:1,gameOver:2};
-        this.background.src='./images/background.png';
+        
         this.tileMap=new TileMap();
         this.worldSize={height:720,width:this.tileMap.getMapWidth()};
         this.camera=new Camera(this.worldSize);
@@ -48,7 +49,7 @@ class GameWorld
     {
         this.camera.followPlayer(canvasContext);
       
-        canvasContext.drawImage(this.background,this.camera.getCameraPositionX(),0,1920,1080);
+        canvasContext.drawImage(this.assetManager.getImageAsset('backGround'),this.camera.getCameraPositionX(),0,1920,1080);
         this.tileMap.draw(canvasContext);
         this.pickUpList.draw(canvasContext);
         this.bullet.draw(canvasContext);  
