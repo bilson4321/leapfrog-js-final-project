@@ -1,17 +1,13 @@
-class Tile
-{
-    constructor()
-    {
-        this.tile0=new Image();
-        this.tile2=new Image();
-        this.tile2.src='./images/tile2.png';
-        this.tile5=new Image();
-        this.tile5.src='./images/tile5.png';
+class Tile {
+    constructor() {
+        this.tile0 = new Image();
+        this.tile2 = new Image();
+        this.tile2.src = './images/tile2.png';
+        this.tile5 = new Image();
+        this.tile5.src = './images/tile5.png';
     }
-    returnImage(index)
-    {
-        switch(index)
-        {
+    returnImage(index) {
+        switch (index) {
             case 0:
                 {
                     return this.tile0;
@@ -31,4 +27,4 @@ class Tile
         }
     }
 }
-export {Tile};
+export { Tile };
