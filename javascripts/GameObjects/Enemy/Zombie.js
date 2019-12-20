@@ -11,6 +11,8 @@ class Zombie
         this.walking=new Animation('./images/zombie_walking.png',280,999,111,66,6);
         this.attacking=new Animation('./images/zombie_attacking.png',280,1137,111,75,6);
         this.dead=new Animation('./images/zombie_dead.png',280,2634,111,118,8,false);
+        this.healthBar=new Image();
+        this.healthBar.src='./images/health_bar.png';
 
         this.position={x:500,y:480};
         this.height=111;
@@ -29,6 +31,8 @@ class Zombie
         this.health=100;
         this.player=player;
         this.attackRange={height:40,width:40};
+        this.healthBarMaxWidth=70;
+        this.healthBarWidth=70;
 
         this.bullet=bullet;
     }
@@ -37,7 +41,9 @@ class Zombie
         
     }
     update()
-    {
+    { 
+        this.healthBarWidth=Math.floor((this.health/100)*this.healthBarMaxWidth);
+        this.health=Math.max(0,this.health);
         if(this.health>0)
         {
             if(this.velocity.x>0.25||this.velocity.x<-0.25)
@@ -123,8 +129,7 @@ class Zombie
     }
     draw(canvasContext)
     {
-        canvasContext.font='20px Arial';
-        canvasContext.fillText(""+this.health,this.position.x,this.position.y-20);
+        canvasContext.drawImage(this.healthBar,0,0,223,23,this.position.x,this.position.y-20,this.healthBarWidth,10);
        // this.handleCollision(canvasContext); // for experimental purpose only
         if(this.mirrored==1)
         {
@@ -165,108 +170,14 @@ class Zombie
     {
         this.onTheGround=false;
         if (this.position.x < this.bullet.position.x + this.bullet.width &&
-                     this.position.x + this.width > this.bullet.position.x &&
-                     this.position.y < this.bullet.position.y+this.bullet.height &&
-                     this.position.y + this.height > this.bullet.position.y)
-                     {
-                        this.health-=30;
-                        this.bullet.state='idle';
-                        this.bullet.position.x=0;
-                     } 
-        // for(var i=0;i<this.Map.map.length;i++)
-        // {
-        //     for(var j=0;j<this.Map.map[i].length;j++)
-        //     {
-        //         if (this.position.x < (j*this.Map.tileWidth) + this.Map.tileWidth &&
-        //             this.position.x + this.width > (j*this.Map.tileWidth) &&
-        //             this.position.y < (i*this.Map.tileHeight)+this.Map.tileHeight &&
-        //             this.position.y + this.height > (i*this.Map.tileHeight)) 
-        //             {
-        //                 canvasContext.strokeStyle="red";
-        //                 canvasContext.strokeRect(this.position.x,this.position.y,this.width,this.height);
-        //                 canvasContext.strokeStyle="yellow";
-        //                 canvasContext.strokeRect((j*this.Map.tileWidth),(i*this.Map.tileHeight),this.Map.tileWidth,this.Map.tileHeight);
-        //                 //edge block type
-        //                 if(this.Map.map[i][j]==2)
-        //                 {
-        //                     //collision for block Type (four Direction)
-        //                     var width=0.5*(this.width+this.Map.tileWidth);
-        //                     var height=0.5*(this.height+this.Map.tileHeight);
-        //                     var dx=(this.position.x+(this.width/2))-(j*this.Map.tileWidth+(this.Map.tileWidth/2));
-        //                     var dy=(this.position.y+(this.height/2))-(i*this.Map.tileHeight+22+(this.Map.tileHeight/2));
-        //                     if(Math.abs(dx)<=width&&Math.abs(dy)<=height)
-        //                     {
-        //                         var wy=width*dy;
-        //                         var hx=height*dx;
-        //                         if(wy>hx)
-        //                         {
-        //                             if(wy>-hx)
-        //                             {
-        //                                 this.position.y=(i*this.Map.tileHeight+this.Map.tileHeight);
-        //                             }
-        //                             else
-        //                             {
-        //                                 this.velocity.x=0;
-        //                                 this.position.x-=2;
-        //                             }
-        //                         }
-        //                         else
-        //                         {
-        //                             if(wy>-hx)
-        //                             {
-        //                                 this.velocity.x=0;
-        //                                 this.position.x+=2;
-        //                             }
-        //                             else
-        //                             {
-        //                                 this.position.y=(i*this.Map.tileHeight-this.height+22);
-        //                                 this.onTheGround=true;
-        //                             }
-        //                         }
-        //                     }
-        //                 }
-        //                 //block
-        //                 if(this.Map.map[i][j]==5)
-        //                 {
-        //                     //collision for block Type (four Direction)
-        //                     var width=0.5*(this.width+this.Map.tileWidth);
-        //                     var height=0.5*(this.height+this.Map.tileHeight);
-        //                     var dx=(this.position.x+(this.width/2))-(j*this.Map.tileWidth+(this.Map.tileWidth/2));
-        //                     var dy=(this.position.y+(this.height/2))-(i*this.Map.tileHeight+(this.Map.tileHeight/2));
-        //                     if(Math.abs(dx)<=width&&Math.abs(dy)<=height)
-        //                     {
-        //                         var wy=width*dy;
-        //                         var hx=height*dx;
-        //                         if(wy>hx)
-        //                         {
-        //                             if(wy>-hx)
-        //                             {
-        //                                 this.position.y=(i*this.Map.tileHeight+this.Map.tileHeight);
-        //                             }
-        //                             else
-        //                             {
-        //                                 this.velocity.x=0;
-        //                                 this.position.x-=2;
-        //                             }
-        //                         }
-        //                         else
-        //                         {
-        //                             if(wy>-hx)
-        //                             {
-        //                                 this.velocity.x=0;
-        //                                 this.position.x+=2;
-        //                             }
-        //                             else
-        //                             {
-        //                                 this.position.y=(i*this.Map.tileHeight-this.height);
-        //                                 this.onTheGround=true;
-        //                             }
-        //                         }
-        //                     }
-        //                 }
-        //             }  
-        //     }
-        // }
+            this.position.x + this.width > this.bullet.position.x &&
+            this.position.y < this.bullet.position.y+this.bullet.height &&
+            this.position.y + this.height > this.bullet.position.y)
+            {
+                this.health-=30;
+                this.bullet.state='idle';
+                this.bullet.position.x=0;
+            } 
     }
 }
 export {Zombie};

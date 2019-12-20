@@ -7,7 +7,7 @@ class GameOverState
         this.assetManager=assetManager;
         this.assetManager.loadImageAsset('gameOverScreen','./images/gameOver.png');
         this.gameState=gameState;
-        this.restartButton=new Button(this.assetManager,'restartButton','./images/restartButton.png',380,480,60,140);
+        this.restartButton=new Button(this.assetManager,'restartButton','./images/restartButton.png',380,480,60,180);
         this.coinCollected=0;
     }
     handleInput(inputController)

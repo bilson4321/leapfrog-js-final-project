@@ -1,9 +1,9 @@
 class Bullet
 {
-    constructor()
+    constructor(assetManager)
     {
-        this.image=new Image();
-        this.image.src='./images/bullet.png';
+        this.assetManager=assetManager;
+        this.assetManager.loadImageAsset('bullet','./images/bullet.png');
         this.state='idle';
         this.position={x:0,y:0};
         this.shootFrom={x:0,y:0};
@@ -44,7 +44,7 @@ class Bullet
     draw(canvasContext)
     {
         if(this.state=='shooting')
-        canvasContext.drawImage(this.image,this.position.x,this.position.y,this.width,this.height);
+        canvasContext.drawImage(this.assetManager.getImageAsset('bullet'),this.position.x,this.position.y,this.width,this.height);
     }
 }
 export {Bullet}

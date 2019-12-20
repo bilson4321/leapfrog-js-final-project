@@ -18,7 +18,7 @@ class GameWorld
         this.tileMap=new TileMap();
         this.worldSize={height:720,width:this.tileMap.getMapWidth()};
         this.camera=new Camera(this.worldSize);
-        this.bullet=new Bullet();
+        this.bullet=new Bullet(this.assetManager);
         this.player=new Player(this.tileMap,this.bullet,this.state);
         this.enemyList=new EnemyList(this.tileMap,this.player,this.bullet,this.mainVillainState);
         this.pickUpList=new PickUpList(this.tileMap,this.player,this.mainVillainState);

@@ -11,6 +11,8 @@ class OrcLord
         this.walking=new Animation('./images/villain_walk.png',280,2526,181,232,7);
         this.attacking=new Animation('./images/villain_attack.png',280,2037,241,232,7);
         this.dead=new Animation('./images/villain_die.png',280,3189,181,309,7,false);
+        this.healthBar=new Image();
+        this.healthBar.src='./images/health_bar.png';
 
         this.position={x:500,y:480};
         this.height=181;
@@ -26,6 +28,8 @@ class OrcLord
         this.health=100;
         this.player=player;
         this.attackRange={height:140,width:90};
+        this.healthBarMaxWidth=200;
+        this.healthBarWidth=200;
         this.mainVillainState=mainVillainState;
         this.bullet=bullet;
     }
@@ -35,6 +39,8 @@ class OrcLord
     }
     update()
     {
+        this.healthBarWidth=Math.floor((this.health/100)*this.healthBarMaxWidth);
+        this.health=Math.max(0,this.health);
         if(this.health>0)
         {
             if(this.velocity.x>0.25||this.velocity.x<-0.25)
@@ -56,8 +62,8 @@ class OrcLord
                     this.mirrored=1;
                     this.velocity.x-=1;
                 }
-                if (this.position.x+30 < this.player.position.x + this.player.width &&
-                    this.position.x+30 + this.attackRange.width > this.player.position.x &&
+                if (this.position.x+90 < this.player.position.x + this.player.width &&
+                    this.position.x+90 + this.attackRange.width > this.player.position.x &&
                     this.position.y < this.player.position.y+this.player.height &&
                     this.position.y + this.attackRange.height > this.player.position.y) 
                     {
@@ -124,8 +130,7 @@ class OrcLord
     }
     draw(canvasContext)
     {
-        canvasContext.font='20px Arial';
-        canvasContext.fillText(""+this.health,this.position.x,this.position.y-20);
+        canvasContext.drawImage(this.healthBar,0,0,223,23,this.position.x,this.position.y-20,this.healthBarWidth,14);
        // this.handleCollision(canvasContext); // for experimental purpose only
         if(this.mirrored==1)
         {
@@ -159,7 +164,7 @@ class OrcLord
             if(this.animationState.current==this.animationState.dead)
             this.dead.draw(canvasContext,this.position.x,this.position.y);
             canvasContext.strokeStyle='blue';
-            canvasContext.strokeRect(this.position.x+30,this.position.y,this.attackRange.width,this.attackRange.height);
+            canvasContext.strokeRect(this.position.x+90,this.position.y,this.attackRange.width,this.attackRange.height);
         }
     }
     handleCollision()

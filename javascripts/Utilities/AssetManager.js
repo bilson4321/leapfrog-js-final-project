@@ -21,8 +21,9 @@ class AssetManager
     }
     displayStatus(canvasContext)
     {
-        canvasContext.font = "30px Arial";
-        canvasContext.fillText("Loading :",this.loadedImage,'/',this.totalImages, 10, 50);
+        canvasContext.font = "40px Arial";
+        canvasContext.fillText("Loading :",this.loadedImage,'/',this.totalImages, 100, 220);
+        console.log("Loading :",this.loadedImage,'/',this.totalImages);
     }
 }
 export {AssetManager};
